@@ -5,6 +5,7 @@ import cors from 'cors';
 import path from 'path';
 import connectDB from './config/db.js'; 
 import authRoutes from './routes/auth.route.js';
+import habitRoutes from './routes/habit.route.js';
 
 
 dotenv.config();
@@ -23,7 +24,9 @@ app.use(cookieParser());
 connectDB();
 
 
+// Routes
 app.use('/backend/auth', authRoutes);
+app.use('/backend/habits', habitRoutes);
 
 
 // Health Check Endpoint
