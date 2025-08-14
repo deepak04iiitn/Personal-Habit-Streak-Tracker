@@ -219,4 +219,57 @@ export const markHabitComplete = async (req, res, next) => {
       next(error);
     }
 };
+
+
+// Endpoint for updating a habit
+export const updateHabit = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const owner = req.user.id;
+      const { title, description, category, isDaily } = req.body;
+  
+      if(!mongoose.Types.ObjectId.isValid(id)) 
+      {
+        return next(errorHandler(400, 'Invalid habit ID'));
+      }
+  
+      const updateData = {};
+
+      if(title !== undefined) updateData.title = title;
+      if(description !== undefined) updateData.description = description;
+      if(category !== undefined) updateData.category = category;
+      if(isDaily !== undefined) updateData.isDaily = isDaily;
+  
+      const habit = await Habit.findOneAndUpdate(
+        { _id: id, owner },
+        updateData,
+        { new: true, runValidators: true }
+      );
+  
+      if(!habit) 
+      {
+        return next(errorHandler(404, 'Habit not found'));
+      }
+  
+      res.status(200).json({
+        success: true,
+        message: 'Habit updated successfully',
+        data: habit
+      });
+
+    } catch (error) {
+      if(error.code === 11000) 
+      {
+        return next(errorHandler(400, 'A habit with this title already exists'));
+      }
+      
+      if(error.name === 'ValidationError') 
+      {
+        const errors = Object.values(error.errors).map(err => err.message);
+        return next(errorHandler(400, errors.join(', ')));
+      }
+  
+      next(error);
+    }
+};
   
