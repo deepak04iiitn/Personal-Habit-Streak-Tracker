@@ -116,7 +116,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-100 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+        
         <div className="text-center mb-10">
           <div className="flex items-center justify-center space-x-3 mb-3">
             <Sparkles className="h-6 w-6 text-gray-500" />
@@ -126,7 +126,6 @@ const Dashboard = () => {
           <p className="text-gray-600 text-base">Track your progress and celebrate your achievements</p>
         </div>
 
-        {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
           {statCards.map((card) => {
             const Icon = card.icon;
@@ -147,7 +146,6 @@ const Dashboard = () => {
           })}
         </div>
 
-        {/* Motivational Section */}
         <div className="bg-white rounded-lg shadow p-6 mb-10 border border-gray-200">
           <div className="text-center">
             <div className="w-14 h-14 bg-gray-300 rounded-lg flex items-center justify-center mx-auto mb-4">
@@ -171,7 +169,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Quick Actions */}
         <div className="bg-white rounded-lg shadow p-6 mb-10 border border-gray-200">
           <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center space-x-2">
             <Target className="h-5 w-5 text-gray-700" />
