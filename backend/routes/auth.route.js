@@ -1,0 +1,12 @@
+import express from 'express';
+import { signup, signin, logout, deleteAccount } from '../controllers/auth.controller.js';
+import { verifyUser } from '../utils/verifyUser.js';
+
+const router = express.Router();
+
+router.post('/signup' , signup);
+router.post('/signin' , signin);
+router.post('/logout', logout);
+router.delete('/delete-profile', verifyUser, deleteAccount);
+
+export default router;
