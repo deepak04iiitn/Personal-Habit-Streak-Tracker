@@ -1,5 +1,6 @@
 import Habit from '../models/habit.model.js';
 import { errorHandler } from '../utils/error.js';
+import mongoose from 'mongoose';
 
 
 // Endpoint for creating a new habit
@@ -137,4 +138,33 @@ export const getHabits = async (req, res, next) => {
     } catch (error) {
       next(error);
     }
+};
+
+
+// Endpoint for getting a specific habit by its ID
+export const getHabit = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const owner = req.user.id;
+
+    if(!mongoose.Types.ObjectId.isValid(id)) 
+    {
+      return next(errorHandler(400, 'Invalid habit ID'));
+    }
+
+    const habit = await Habit.findOne({ _id: id, owner })
+      .populate('owner', 'username email');
+
+    if(!habit) 
+    {
+      return next(errorHandler(404, 'Habit not found'));
+    }
+
+    res.status(200).json({
+      success: true,
+      data: habit
+    });
+  } catch (error) {
+    next(error);
+  }
 };
