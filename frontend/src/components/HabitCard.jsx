@@ -92,21 +92,21 @@ const HabitCard = ({ habit, onView, onEdit, onDelete, onMarkComplete, viewMode }
           <div className="flex items-center gap-2">
             <button
               onClick={() => onView(habit)}
-              className="p-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all duration-200 hover:scale-105"
+              className="cursor-pointer p-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all duration-200 hover:scale-105"
               title="View Details"
             >
               <Eye size={18} />
             </button>
             <button
               onClick={() => onEdit(habit)}
-              className="p-3 text-gray-600 hover:bg-yellow-50 hover:text-yellow-600 rounded-xl transition-all duration-200 hover:scale-105"
+              className="cursor-pointer p-3 text-gray-600 hover:bg-yellow-50 hover:text-yellow-600 rounded-xl transition-all duration-200 hover:scale-105"
               title="Edit Habit"
             >
               <Edit size={18} />
             </button>
             <button
               onClick={() => onDelete(habit)}
-              className="p-3 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-xl transition-all duration-200 hover:scale-105"
+              className="cursor-pointer p-3 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-xl transition-all duration-200 hover:scale-105"
               title="Delete Habit"
             >
               <Trash2 size={18} />

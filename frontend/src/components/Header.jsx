@@ -76,7 +76,7 @@ const Header = () => {
               <li>
                 <button 
                   onClick={handleLogout} 
-                  className="block md:inline-block w-full md:w-auto px-4 py-2 text-gray-300 hover:text-red-400 text-sm font-medium transition-colors duration-200"
+                  className="cursor-pointer block md:inline-block w-full md:w-auto px-4 py-2 text-gray-300 hover:text-red-400 text-sm font-medium transition-colors duration-200"
                 >
                   Sign Out
                 </button>
