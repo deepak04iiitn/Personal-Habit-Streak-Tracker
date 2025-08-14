@@ -1,6 +1,8 @@
 import Habit from '../models/habit.model.js';
 import { errorHandler } from '../utils/error.js';
 
+
+// Endpoint for creating a new habit
 export const createHabit = async (req, res, next) => {
   try {
     const { title, description, isDaily } = req.body;
@@ -42,4 +44,97 @@ export const createHabit = async (req, res, next) => {
 
     next(error);
   }
+};
+
+
+// Endpoint for getting all habits for a user 
+export const getHabits = async (req, res, next) => {
+    try {
+      const owner = req.user.id;
+      const { 
+        category, 
+        isDaily, 
+        search,
+        page = 1,
+        limit = 8,
+        sortBy = 'createdAt',
+        sortOrder = 'desc'
+      } = req.query;
+  
+      const filter = { owner };
+      
+      if(category) filter.category = category;
+      
+      if(isDaily !== undefined) filter.isDaily = isDaily === 'true';
+      
+      if(search && search.trim() !== '') 
+      {
+        filter.$or = [
+          { title: { $regex: search, $options: 'i' } },
+          { description: { $regex: search, $options: 'i' } }
+        ];
+      }
+  
+      const pageNum = parseInt(page);
+      const limitNum = parseInt(limit);
+      const skip = (pageNum - 1) * limitNum;
+  
+      if(pageNum < 1) 
+      {
+        return next(errorHandler(400, 'Page number must be greater than 0'));
+      }
+      
+      if(limitNum < 1 || limitNum > 50) 
+      {
+        return next(errorHandler(400, 'Limit must be between 1 and 50'));
+      }
+  
+      const sortOptions = {};
+      const validSortFields = ['title', 'category', 'createdAt', 'updatedAt', 'streakCount', 'longestStreak'];
+      
+      if(validSortFields.includes(sortBy)) 
+      {
+        sortOptions[sortBy] = sortOrder === 'asc' ? 1 : -1;
+      } 
+      else 
+      {
+        sortOptions.createdAt = -1; 
+      }
+  
+      const totalHabits = await Habit.countDocuments(filter);
+      
+      const habits = await Habit.find(filter)
+        .sort(sortOptions)
+        .skip(skip)
+        .limit(limitNum)
+        .populate('owner', 'username email');
+  
+      const totalPages = Math.ceil(totalHabits / limitNum);
+      const hasNextPage = pageNum < totalPages;
+      const hasPrevPage = pageNum > 1;
+  
+      res.status(200).json({
+        success: true,
+        data: habits,
+        pagination: {
+          currentPage: pageNum,
+          totalPages,
+          totalHabits,
+          habitsPerPage: limitNum,
+          hasNextPage,
+          hasPrevPage,
+          nextPage: hasNextPage ? pageNum + 1 : null,
+          prevPage: hasPrevPage ? pageNum - 1 : null
+        },
+        filters: {
+          category: category || null,
+          isDaily: isDaily || null,
+          search: search || null,
+          sortBy,
+          sortOrder
+        }
+      });
+    } catch (error) {
+      next(error);
+    }
 };
