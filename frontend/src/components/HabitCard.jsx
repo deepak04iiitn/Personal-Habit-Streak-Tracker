@@ -1,7 +1,9 @@
-import React from 'react';
-import { Calendar, TrendingUp, Eye, Trash2, Edit } from 'lucide-react';
+import React, { useState } from 'react';
+import { Calendar, TrendingUp, Eye, Trash2, Edit, CheckCircle, Circle } from 'lucide-react';
 
-const HabitCard = ({ habit, onView, onEdit, onDelete, viewMode }) => {
+const HabitCard = ({ habit, onView, onEdit, onDelete, onMarkComplete, viewMode }) => {
+  const [isMarkingComplete, setIsMarkingComplete] = useState(false);
+
   const isCompletedToday = () => {
     if (!habit.lastCompleted) return false;
     const today = new Date();
@@ -17,27 +19,63 @@ const HabitCard = ({ habit, onView, onEdit, onDelete, viewMode }) => {
     return habit.completionRate ? habit.completionRate.toFixed(1) + '%' : '0%';
   };
 
+  const handleMarkComplete = async () => {
+    if (isCompletedToday() || isMarkingComplete) return;
+    
+    try {
+      setIsMarkingComplete(true);
+      await onMarkComplete(habit);
+    } catch (error) {
+      console.error('Error marking habit complete:', error);
+    } finally {
+      setIsMarkingComplete(false);
+    }
+  };
+
   if (viewMode === 'list') {
     return (
       <div className="bg-white border rounded-lg p-4 hover:shadow-md transition-shadow">
         <div className="flex items-center justify-between">
-          <div className="flex-1">
-            <div className="flex items-center gap-3">
-              <h3 className="text-lg font-semibold text-gray-800">{habit.title}</h3>
-              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                isCompletedToday() ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
-              }`}>
-                {isCompletedToday() ? 'Completed Today' : 'Pending'}
-              </span>
-            </div>
-            <p className="text-sm text-gray-600 mt-1">{habit.description}</p>
-            <div className="flex items-center gap-4 mt-2 text-sm text-gray-500">
-              <span>Category: {formatCategory(habit.category)}</span>
-              <span>Streak: {habit.streakCount}</span>
-              <span>Best: {habit.longestStreak}</span>
-              <span>Rate: {getCompletionRate()}</span>
+          <div className="flex items-center gap-3 flex-1">
+            {/* Mark Complete Button */}
+            <button
+              onClick={handleMarkComplete}
+              disabled={isCompletedToday() || isMarkingComplete}
+              className={`flex-shrink-0 p-2 rounded-full transition-all ${
+                isCompletedToday() 
+                  ? 'bg-green-100 text-green-600 cursor-default' 
+                  : 'bg-gray-100 hover:bg-green-100 text-gray-600 hover:text-green-600 cursor-pointer'
+              } ${isMarkingComplete ? 'opacity-50 cursor-not-allowed' : ''}`}
+              title={isCompletedToday() ? 'Completed Today' : 'Mark as Complete'}
+            >
+              {isMarkingComplete ? (
+                <div className="w-5 h-5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+              ) : isCompletedToday() ? (
+                <CheckCircle size={20} />
+              ) : (
+                <Circle size={20} />
+              )}
+            </button>
+
+            <div className="flex-1">
+              <div className="flex items-center gap-3">
+                <h3 className="text-lg font-semibold text-gray-800">{habit.title}</h3>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                  isCompletedToday() ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
+                }`}>
+                  {isCompletedToday() ? 'Completed Today' : 'Pending'}
+                </span>
+              </div>
+              <p className="text-sm text-gray-600 mt-1">{habit.description}</p>
+              <div className="flex items-center gap-4 mt-2 text-sm text-gray-500">
+                <span>Category: {formatCategory(habit.category)}</span>
+                <span>Streak: {habit.streakCount}</span>
+                <span>Best: {habit.longestStreak}</span>
+                <span>Rate: {getCompletionRate()}</span>
+              </div>
             </div>
           </div>
+          
           <div className="flex items-center gap-2">
             <button
               onClick={() => onView(habit)}
@@ -69,12 +107,35 @@ const HabitCard = ({ habit, onView, onEdit, onDelete, viewMode }) => {
   return (
     <div className="bg-white border rounded-lg p-6 hover:shadow-lg transition-shadow">
       <div className="flex items-start justify-between mb-3">
-        <div>
-          <h3 className="text-lg font-semibold text-gray-800 mb-1">{habit.title}</h3>
-          <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
-            {formatCategory(habit.category)}
-          </span>
+        <div className="flex items-start gap-3 flex-1">
+          {/* Mark Complete Button */}
+          <button
+            onClick={handleMarkComplete}
+            disabled={isCompletedToday() || isMarkingComplete}
+            className={`flex-shrink-0 p-2 rounded-full transition-all ${
+              isCompletedToday() 
+                ? 'bg-green-100 text-green-600 cursor-default' 
+                : 'bg-gray-100 hover:bg-green-100 text-gray-600 hover:text-green-600 cursor-pointer'
+            } ${isMarkingComplete ? 'opacity-50 cursor-not-allowed' : ''}`}
+            title={isCompletedToday() ? 'Completed Today' : 'Mark as Complete'}
+          >
+            {isMarkingComplete ? (
+              <div className="w-5 h-5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+            ) : isCompletedToday() ? (
+              <CheckCircle size={20} />
+            ) : (
+              <Circle size={20} />
+            )}
+          </button>
+
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-gray-800 mb-1">{habit.title}</h3>
+            <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+              {formatCategory(habit.category)}
+            </span>
+          </div>
         </div>
+        
         <span className={`px-2 py-1 rounded-full text-xs font-medium ${
           isCompletedToday() ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
         }`}>

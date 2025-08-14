@@ -7,7 +7,6 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Habits from './pages/Habits';
 import CreateHabit from './pages/CreateHabit';
-import EditHabit from './pages/EditHabit';
 
 const PrivateRoute = ({ children }) => {
 
@@ -69,15 +68,6 @@ function App() {
                 element={
                   <PrivateRoute>
                     <CreateHabit />
-                  </PrivateRoute>
-                }
-              />
-
-              <Route
-                path="/habits/:id/edit"
-                element={
-                  <PrivateRoute>
-                    <EditHabit />
                   </PrivateRoute>
                 }
               />

@@ -138,6 +138,30 @@ const Habits = () => {
     setShowDeleteModal(true);
   };
 
+  // New function to handle marking habit as complete
+  const handleMarkComplete = async (habit) => {
+    try {
+      const response = await fetch(`/backend/habits/${habit._id}/mark-complete`, {
+        method: 'POST',
+        credentials: 'include'
+      });
+
+      if(!response.ok) 
+      {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to mark habit as complete');
+      }
+
+      // Refresh the habits list to show updated streak/completion status
+      await fetchHabits();
+      
+      console.log('Habit marked as complete successfully');
+    } catch (error) {
+      setError(error.message || 'Failed to mark habit as complete');
+      console.error('Error marking habit complete:', error);
+    }
+  };
+
   const handleEditSave = async (updatedData) => {
     try {
       const response = await fetch(`/backend/habits/${selectedHabit._id}/update`, {
@@ -384,6 +408,7 @@ const Habits = () => {
               onView={handleView}
               onEdit={handleEdit}
               onDelete={handleDelete}
+              onMarkComplete={handleMarkComplete}
               viewMode={viewMode}
             />
           ))}
