@@ -301,4 +301,96 @@ export const deleteHabit = async (req, res, next) => {
       next(error);
     }
 };
+
+
+// Endpoint for getting the statistics of a habit
+export const getHabitStats = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const owner = req.user.id;
+      const { period = '30' } = req.query;
+  
+      if(!mongoose.Types.ObjectId.isValid(id)) 
+      {
+        return next(errorHandler(400, 'Invalid habit ID'));
+      }
+  
+      const habit = await Habit.findOne({ _id: id, owner });
+      if(!habit) 
+      {
+        return next(errorHandler(404, 'Habit not found'));
+      }
+  
+      const days = parseInt(period);
+      if(isNaN(days) || days <= 0) 
+      {
+        return next(errorHandler(400, 'Invalid period specified'));
+      }
+  
+      // calculating period start date
+      const startDate = new Date();
+      startDate.setHours(0, 0, 0, 0);
+      startDate.setDate(startDate.getDate() - days);
+  
+      const completionsInPeriod = habit.completions
+        .map(c => new Date(c.date))
+        .filter(d => d >= startDate);
+  
+      // calculating streaks in the period
+      let longestStreakInPeriod = 0;
+      let currentStreakInPeriod = 0;
+  
+      if(completionsInPeriod.length > 0) 
+      {
+        const uniqueDates = [...new Set(completionsInPeriod.map(d => d.setHours(0,0,0,0)))]
+          .map(t => new Date(t))
+          .sort((a,b) => a - b);
+  
+        longestStreakInPeriod = 1;
+        currentStreakInPeriod = 1;
+
+        for(let i = 1; i < uniqueDates.length; i++) 
+        {
+          const diff = (uniqueDates[i] - uniqueDates[i-1]) / (1000*3600*24);
+
+          if(diff === 1) 
+          {
+            currentStreakInPeriod++;
+          } 
+          else 
+          {
+            currentStreakInPeriod = 1;
+          }
+
+          if(currentStreakInPeriod > longestStreakInPeriod) 
+          {
+            longestStreakInPeriod = currentStreakInPeriod;
+          }
+        }
+      }
+  
+      const periodCompletionRate = Math.min((completionsInPeriod.length / days) * 100, 100).toFixed(2) + '%';
+  
+      const stats = {
+        totalCompletions: habit.completions.length,
+        currentStreak: habit.streakCount,
+        longestStreak: habit.longestStreak,
+        overallCompletionRate: habit.completionRate.toFixed(2) + '%',
+        lastCompleted: habit.lastCompleted,
+        createdAt: habit.createdAt,
+        period: {
+          days,
+          completions: completionsInPeriod.length,
+          completionRate: periodCompletionRate,
+          longestStreak: longestStreakInPeriod,
+        }
+      };
+  
+      res.status(200).json({ success: true, data: stats });
+
+    } catch (error) {
+      next(error);
+    }
+};
+  
   
