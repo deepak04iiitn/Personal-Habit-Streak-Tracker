@@ -392,5 +392,55 @@ export const getHabitStats = async (req, res, next) => {
       next(error);
     }
 };
+
+
+// Endpoint for getting the user's summary
+export const getUserHabitSummary = async (req, res, next) => {
+    try {
+      const owner = req.user.id;
+      const habits = await Habit.find({ owner });
+      
+      const summary = {
+        totalHabits: habits.length,
+        activeStreaks: habits.filter(habit => habit.streakCount > 0).length,
+        longestOverallStreak: Math.max(...habits.map(habit => habit.longestStreak), 0),
+        averageCompletionRate: habits.length > 0 
+          ? habits.reduce((sum, habit) => sum + habit.completionRate, 0) / habits.length 
+          : 0,
+        categoriesCount: [...new Set(habits.map(habit => habit.category))].length,
+        dailyHabits: habits.filter(habit => habit.isDaily).length,
+        totalCompletions: habits.reduce((sum, habit) => sum + habit.completions.length, 0)
+      };
+  
+      // Habits which are completed today
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+  
+      const completedToday = habits.filter(habit => {
+
+        if(!habit.lastCompleted) return false;
+
+        const lastCompleted = new Date(habit.lastCompleted);
+
+        return lastCompleted >= today && lastCompleted < tomorrow;
+
+      }).length;
+  
+      summary.completedToday = completedToday;
+      summary.dailyCompletionRate = habits.filter(habit => habit.isDaily).length > 0 
+        ? (completedToday / habits.filter(habit => habit.isDaily).length) * 100 
+        : 0;
+  
+      res.status(200).json({
+        success: true,
+        data: summary
+      });
+
+    } catch (error) {
+      next(error);
+    }
+};
   
   
