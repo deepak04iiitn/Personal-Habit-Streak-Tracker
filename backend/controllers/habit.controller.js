@@ -168,3 +168,55 @@ export const getHabit = async (req, res, next) => {
     next(error);
   }
 };
+
+
+// Endpoint for marking a habit as complete
+export const markHabitComplete = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const owner = req.user.id;
+  
+      if(!mongoose.Types.ObjectId.isValid(id)) 
+      {
+        return next(errorHandler(400, 'Invalid habit ID'));
+      }
+  
+      const habit = await Habit.findOne({ _id: id, owner });
+  
+      if(!habit) 
+      {
+        return next(errorHandler(404, 'Habit not found'));
+      }
+  
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      const lastCompleted = habit.lastCompleted ? new Date(habit.lastCompleted) : null;
+
+      if(lastCompleted) 
+      {
+        lastCompleted.setHours(0, 0, 0, 0);
+        if(lastCompleted.getTime() === today.getTime()) 
+        {
+          return next(errorHandler(400, 'Habit already completed today'));
+        }
+      }
+  
+      habit.updateStreak();
+      await habit.save();
+  
+      res.status(200).json({
+        success: true,
+        message: 'Habit marked as complete',
+        data: {
+          streakCount: habit.streakCount,
+          longestStreak: habit.longestStreak,
+          completions: habit.completions.length,
+          completionRate: habit.completionRate
+        }
+      });
+    } catch (error) {
+      next(error);
+    }
+};
+  
