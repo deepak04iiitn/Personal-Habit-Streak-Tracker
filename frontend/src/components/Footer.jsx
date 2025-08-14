@@ -6,7 +6,6 @@ const Footer = () => {
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-8 lg:gap-12">
           
-          {/* Brand Section */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
@@ -32,7 +31,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Product Links */}
           <div>
             <h4 className="font-semibold text-white mb-4">Product</h4>
             <ul className="space-y-3 text-sm">
@@ -43,7 +41,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Support Links */}
           <div>
             <h4 className="font-semibold text-white mb-4">Support</h4>
             <ul className="space-y-3 text-sm">
@@ -55,7 +52,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Section */}
         <div className="border-t border-slate-700/50 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-sm text-gray-400">
             © 2025 Habit Tracker. All rights reserved.

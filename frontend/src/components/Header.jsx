@@ -16,7 +16,7 @@ const Header = () => {
   return (
     <header className="bg-slate-900/95 backdrop-blur-md border-b border-slate-700/50 text-white shadow-lg sticky top-0 z-50">
       <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-        {/* Logo */}
+        
         <Link to="/" className="text-2xl font-bold flex items-center space-x-3 hover:opacity-90 transition-all duration-300 group">
           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-blue-500/25 transition-all duration-300">
             <Zap className="h-6 w-6 text-white" />
