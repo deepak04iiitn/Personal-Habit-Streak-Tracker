@@ -272,4 +272,33 @@ export const updateHabit = async (req, res, next) => {
       next(error);
     }
 };
+
+
+// Endpoint for deleting a habit
+export const deleteHabit = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const owner = req.user.id;
+  
+      if(!mongoose.Types.ObjectId.isValid(id)) 
+      {
+        return next(errorHandler(400, 'Invalid habit ID'));
+      }
+  
+      const habit = await Habit.findOneAndDelete({ _id: id, owner });
+  
+      if(!habit) 
+      {
+        return next(errorHandler(404, 'Habit not found'));
+      }
+  
+      res.status(200).json({
+        success: true,
+        message: 'Habit deleted successfully'
+      });
+
+    } catch (error) {
+      next(error);
+    }
+};
   
