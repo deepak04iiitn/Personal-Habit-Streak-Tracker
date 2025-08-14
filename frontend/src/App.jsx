@@ -6,7 +6,6 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Habits from './pages/Habits';
-import HabitDetails from './pages/HabitDetails';
 import CreateHabit from './pages/CreateHabit';
 import EditHabit from './pages/EditHabit';
 
@@ -70,15 +69,6 @@ function App() {
                 element={
                   <PrivateRoute>
                     <CreateHabit />
-                  </PrivateRoute>
-                }
-              />
-
-              <Route
-                path="/habits/:id"
-                element={
-                  <PrivateRoute>
-                    <HabitDetails />
                   </PrivateRoute>
                 }
               />
