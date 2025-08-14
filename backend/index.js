@@ -29,7 +29,7 @@ app.use('/backend/auth', authRoutes);
 app.use('/backend/habits', habitRoutes);
 
 
-// Health Check Endpoint
+// Endpoint for cehcking the health of the server to ensure it's not down
 app.get('/backend/ping', (req, res) => {
   res.status(200).send('pong');
 });
