@@ -123,3 +123,20 @@ export const deleteAccount = async (req, res, next) => {
     next(err);
   }
 };
+
+
+export const getMe = async (req, res, next) => {
+    try {
+        
+      const user = await User.findById(req.user.id).select('-password');
+      if(!user) 
+      {
+        return next(errorHandler(404, 'User not found'));
+      }
+
+      res.status(200).json({ success: true, data: user });
+
+    } catch (error) {
+      next(error);
+    }
+};
