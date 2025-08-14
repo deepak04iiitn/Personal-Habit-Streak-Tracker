@@ -3,7 +3,8 @@ import { errorHandler } from '../utils/error.js';
 
 export const createHabit = async (req, res, next) => {
   try {
-    const { title, description, category, isDaily } = req.body;
+    const { title, description, isDaily } = req.body;
+    const category = req.body.category ? req.body.category.toUpperCase() : undefined;
     const owner = req.user.id;
 
     if(!title || !category || title === '' || category === '') 
