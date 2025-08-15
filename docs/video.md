@@ -1,5 +1,5 @@
 # Video Walkthrough
 
-Below is the video walkthrough showing complete workflow of application and showing hourly progress during development.
+Below is the video walkthrough showing the complete workflow of the application and hourly progress during development.
 
-![View video](https://youtu.be/WqoWS_tSDxQ)
+[![Watch the video](https://img.youtube.com/vi/WqoWS_tSDxQ/0.jpg)](https://youtu.be/WqoWS_tSDxQ)
