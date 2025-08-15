@@ -1,0 +1,487 @@
+{
+	"info": {
+		"_postman_id": "8390621c-eb54-4137-ac9a-11a21bd9449e",
+		"name": "Habit Tracker API's",
+		"description": "A comprehensive habit tracking REST API that helps users build and maintain daily habits through streak tracking, progress analytics.\n\n**Base URL**: [https://personal-habit-streak-tracker.onrender.com](https://personal-habit-streak-tracker.onrender.com/backend)\n\n**API Version:** /backend  \n**Authentication**: JWT Token (Cookie-based)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47323260",
+		"_collection_link": "https://dky422003-4732576.postman.co/workspace/Deepak-Yadav's-Workspace~4fb658cf-93b5-4154-8d3f-e68e4d438af6/collection/47323260-8390621c-eb54-4137-ac9a-11a21bd9449e?action=share&source=collection_link&creator=47323260"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "User Signup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"testuser2\",\r\n  \"email\": \"test2@example.com\",\r\n  \"password\": \"password1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}{{apiVersion}}/auth/signup",
+							"host": [
+								"{{baseURL}}{{apiVersion}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						},
+						"description": "# User Signup\n\nCreates a new user account with username, email, and password.\n\n## Request Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| username | string | Yes | Unique username |\n| email | string | Yes | Valid email address |\n| password | string | Yes | Min 8 chars, must contain letter and number |\n\n## Validation Rules\n\n- Email must be valid format\n    \n- Password minimum 8 characters\n    \n- Password must contain at least one letter and one number\n    \n- Username must be unique\n    \n- Email must be unique\n    \n\n## Success Response (201)\n\n{  \n\"success\": true,  \n\"message\": \"Signup successful!\"  \n}\n\n## Bad Request (400)\n\n{  \n\"success\": false,  \n\"message\": \"All fields are required!\"  \n}\n\n## Conflict (500 Internal Server Error)\n\n{  \n\"success\": false,  \n\"message\": \"E11000 duplicate key error collection: test.users index: username_1 dup key: { username: \"testuser3\" }\"  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "User Signin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"test@example.com\",\r\n  \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}{{apiVersion}}/auth/signin",
+							"host": [
+								"{{baseURL}}{{apiVersion}}"
+							],
+							"path": [
+								"auth",
+								"signin"
+							]
+						},
+						"description": "# User Signin\n\nAuthenticates user and returns JWT token with user data.\n\n## Request Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| email | string | Yes | User's email address |\n| password | string | Yes | User's password |\n\n## Success Response (200)\n\n{  \n\"_id\": \"689d84008fb4f7011ca19fd4\",  \n\"username\": \"testuser\",  \n\"email\": \"[test@example.com](https://mailto:test@example.com)\",  \n\"createdAt\": \"2025-08-14T06:36:48.399Z\",  \n\"updatedAt\": \"2025-08-14T06:36:48.399Z\",  \n\"__v\": 0,  \n\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OWQ4NDAwOGZiNGY3MDExY2ExOWZkNCIsImlhdCI6MTc1NTI2NjU1MywiZXhwIjoxNzU1MjcwMTUzfQ.ySd_RWpllpjMqRkuGBE9HDSAJ_dH7BT_53YO9s_2afY\",  \n\"expiresAt\": 1755270153656  \n}\n\n## Not Found (404)\n\n{  \n\"success\": false,  \n\"message\": \"Invalid credentials!\"  \n}\n\n## Bad Request (400)\n\n{  \n\"success\": false,  \n\"message\": \"All fields are required!\"  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "User Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{apiVersion}}/auth/logout",
+							"host": [
+								"{{baseURL}}{{apiVersion}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						},
+						"description": "# User Logout\n\nLogs out the current user by clearing the authentication cookie.\n\n## Authentication\n\nNo authentication required, but cookie will be cleared if present.\n\n## Success Response (200)\n\n{  \n\"success\": true,  \n\"message\": \"Signed out successfully.\"  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Account",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "habittracker0402",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}{{apiVersion}}/auth/delete-profile",
+							"host": [
+								"{{baseURL}}{{apiVersion}}"
+							],
+							"path": [
+								"auth",
+								"delete-profile"
+							]
+						},
+						"description": "# Delete User Account\n\nPermanently deletes the authenticated user's account and all associated data.\n\n## Authentication Required\n\nBearer token must be provided in Authorization header or as httpOnly cookie.\n\n## Success Response (200)\n\n{  \n\"success\": true,  \n\"message\": \"Account deleted successfully.\"  \n}\n\n## Unauthorized (401)\n\n{  \n\"success\": false,  \n\"message\": \"Please sign in to continue!\"  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "User Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "habittracker0402",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}{{apiVersion}}/auth/me",
+							"host": [
+								"{{baseURL}}{{apiVersion}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						},
+						"description": "# Get User Profile\n\nRetrieves current authenticated user's profile information.\n\n## Authentication Required\n\nBearer token must be provided in Authorization header or as httpOnly cookie.\n\n## Success Response (200)\n\n{  \n\"success\": true,  \n\"data\": {  \n\"_id\": \"689d84008fb4f7011ca19fd4\",  \n\"username\": \"testuser\",  \n\"email\": \"[test@example.com](https://mailto:test@example.com)\",  \n\"createdAt\": \"2025-08-14T06:36:48.399Z\",  \n\"updatedAt\": \"2025-08-14T06:36:48.399Z\",  \n\"__v\": 0  \n}  \n}\n\n## Unauthorized (401)\n\n{  \n\"success\": false,  \n\"message\": \"Please sign in to continue!\"  \n}"
+					},
+					"response": []
+				}
+			],
+			"description": "This folder contains all API endpoints related to user authentication and account management. These endpoints allow to register new users, authenticate existing users, terminate sessions, and manage account lifecycle operations. Each request requires appropriate parameters and, in most cases, authentication tokens for secure access.\n\n**Endpoints Included:**\n\n- **User Signup (POST):** Register a new user account by providing required details such as name, email, and password.\n    \n- **User Signin (POST):** Authenticate an existing user and return an access token for authorized operations.\n    \n- **User Logout (POST):** Invalidate the current session or token to securely log out the user.\n    \n- **Delete Account (DELETE):** Permanently remove a user account and all associated data.\n    \n- **User Details (GET):** Retrieve the authenticated user’s profile information."
+		},
+		{
+			"name": "Habit Management",
+			"item": [
+				{
+					"name": "Create Habit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "habittracker0402",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Morning Workout\",\r\n  \"description\": \"30 minutes of exercise every morning\",\r\n  \"category\": \"EXERCISE\",\r\n  \"isDaily\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}{{apiVersion}}/habits/create-new-habit",
+							"host": [
+								"{{baseURL}}{{apiVersion}}"
+							],
+							"path": [
+								"habits",
+								"create-new-habit"
+							]
+						},
+						"description": "Creates a new habit for the authenticated user. Requires title and category as mandatory fields.\n\nFeatures:\n\n- Validates habit title length (3-100 characters)\n    \n- Supports 17 predefined categories\n    \n- Prevents duplicate habit titles per user\n    \n- Auto-sets daily tracking as default\n    \n\n## **Success Response (201):**\n\n{  \n\"success\": true,  \n\"message\": \"Habit created successfully\",  \n\"data\": {  \n\"title\": \"Night Walk\",  \n\"description\": \"30 minutes of walk every night after dinner\",  \n\"category\": \"EXERCISE\",  \n\"isDaily\": true,  \n\"streakCount\": 0,  \n\"longestStreak\": 0,  \n\"lastCompleted\": null,  \n\"owner\": \"689d84008fb4f7011ca19fd4\",  \n\"_id\": \"689f28442fad80ae4a07d898\",  \n\"completions\": \\[\\],  \n\"createdAt\": \"2025-08-15T12:29:56.638Z\",  \n\"updatedAt\": \"2025-08-15T12:29:56.638Z\",  \n\"__v\": 0,  \n\"completionRate\": 0,  \n\"id\": \"689f28442fad80ae4a07d898\"  \n}  \n}\n\n## Bad Request (400)\n\n{  \n\"success\": false,  \n\"message\": \"Title and category are required!\"  \n}\n\n## Bad Request (400)\n\n{  \n\"success\": false,  \n\"message\": \"A habit with this title already exists\"  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Habits",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "habittracker0402",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}{{apiVersion}}/habits/my-habits",
+							"host": [
+								"{{baseURL}}{{apiVersion}}"
+							],
+							"path": [
+								"habits",
+								"my-habits"
+							]
+						},
+						"description": "Retrieves all habits for the authenticated user with advanced filtering, pagination, and sorting options.\n\nQuery Parameters:\n\n- page: Page number (default: 1)\n    \n- limit: Items per page (1-50, default: 8)\n    \n- category: Filter by category\n    \n- isDaily: Filter by daily/non-daily habits\n    \n- search: Search in title and description\n    \n- sortBy: Sort field (title, category, createdAt, streakCount, etc.)\n    \n- sortOrder: asc or desc (default: desc)\n    \n\n## Success Response (200):\n\n{  \n\"success\": true,  \n\"data\": \\[  \n{  \n\"_id\": \"689f40209a9376ef3ed2a750\",  \n\"title\": \"Night Walk\",  \n\"description\": \"30 minutes of walk every night after dinner\",  \n\"category\": \"EXERCISE\",  \n\"isDaily\": true,  \n\"streakCount\": 0,  \n\"longestStreak\": 0,  \n\"lastCompleted\": null,  \n\"owner\": {  \n\"_id\": \"689d84008fb4f7011ca19fd4\",  \n\"username\": \"testuser\",  \n\"email\": \"[test@example.com](https://mailto:test@example.com)\"  \n},  \n\"completions\": \\[\\],  \n\"createdAt\": \"2025-08-15T14:11:44.864Z\",  \n\"updatedAt\": \"2025-08-15T14:11:44.864Z\",  \n\"**v\": 0,  \n\"completionRate\": 0,  \n\"id\": \"689f40209a9376ef3ed2a750\"  \n},  \n{  \n\"_id\": \"689f34cd9a9376ef3ed2a734\",  \n\"title\": \"Drink Water\",  \n\"description\": \"Drink at least 2 litres of water daily\",  \n\"category\": \"HYDRATION\",  \n\"isDaily\": true,  \n\"streakCount\": 1,  \n\"longestStreak\": 1,  \n\"lastCompleted\": \"2025-08-15T14:18:04.790Z\",  \n\"owner\": {  \n\"_id\": \"689d84008fb4f7011ca19fd4\",  \n\"username\": \"testuser\",  \n\"email\": \"**[<b>test@example.com</b>](https://mailto:test@example.com)**\"  \n},  \n\"completions\": \\[  \n{  \n\"date\": \"2025-08-15T14:18:04.790Z\",  \n\"_id\": \"689f419c9a9376ef3ed2a755\",  \n\"id\": \"689f419c9a9376ef3ed2a755\"  \n}  \n\\],  \n\"createdAt\": \"2025-08-15T13:23:25.639Z\",  \n\"updatedAt\": \"2025-08-15T14:18:04.795Z\",  \n\"**v\": 1,  \n\"completionRate\": 100,  \n\"id\": \"689f34cd9a9376ef3ed2a734\"  \n},  \n{  \n\"_id\": \"689e0a203495e2b7a16d4687\",  \n\"title\": \"Avoid Junk Food\",  \n\"description\": \"Avoid Junk food as much as possible\",  \n\"category\": \"DIET\",  \n\"isDaily\": true,  \n\"streakCount\": 1,  \n\"longestStreak\": 1,  \n\"lastCompleted\": \"2025-08-15T12:39:32.849Z\",  \n\"owner\": {  \n\"_id\": \"689d84008fb4f7011ca19fd4\",  \n\"username\": \"testuser\",  \n\"email\": \"[test@example.com](https://mailto:test@example.com)\"  \n},  \n\"completions\": \\[  \n{  \n\"date\": \"2025-08-15T12:39:32.849Z\",  \n\"_id\": \"689f2a842fad80ae4a07d8ae\",  \n\"id\": \"689f2a842fad80ae4a07d8ae\"  \n}  \n\\],  \n\"createdAt\": \"2025-08-14T16:09:04.198Z\",  \n\"updatedAt\": \"2025-08-15T12:39:32.852Z\",  \n\"**v\": 1,  \n\"completionRate\": 100,  \n\"id\": \"689e0a203495e2b7a16d4687\"  \n},  \n{  \n\"_id\": \"689d8ff67e0704fe8f36ec71\",  \n\"title\": \"Night Dinner Walk\",  \n\"description\": \"1 hour of coding daily\",  \n\"category\": \"SKILL_DEVELOPMENT\",  \n\"isDaily\": true,  \n\"streakCount\": 1,  \n\"longestStreak\": 1,  \n\"lastCompleted\": \"2025-08-14T20:07:48.253Z\",  \n\"owner\": {  \n\"_id\": \"689d84008fb4f7011ca19fd4\",  \n\"username\": \"testuser\",  \n\"email\": \"**[<b>test@example.com</b>](https://mailto:test@example.com)**\"  \n},  \n\"completions\": \\[  \n{  \n\"date\": \"2025-08-14T20:07:48.253Z\",  \n\"_id\": \"689e42149920798eb592a741\",  \n\"id\": \"689e42149920798eb592a741\"  \n}  \n\\],  \n\"createdAt\": \"2025-08-14T07:27:50.381Z\",  \n\"updatedAt\": \"2025-08-15T12:36:11.714Z\",  \n\"**v\": 1,  \n\"completionRate\": 50,  \n\"id\": \"689d8ff67e0704fe8f36ec71\"  \n}  \n\\],  \n\"pagination\": {  \n\"currentPage\": 1,  \n\"totalPages\": 1,  \n\"totalHabits\": 4,  \n\"habitsPerPage\": 8,  \n\"hasNextPage\": false,  \n\"hasPrevPage\": false,  \n\"nextPage\": null,  \n\"prevPage\": null  \n},  \n\"filters\": {  \n\"category\": null,  \n\"isDaily\": null,  \n\"search\": null,  \n\"sortBy\": \"createdAt\",  \n\"sortOrder\": \"desc\"  \n}  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Habit",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "habittracker0402",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}{{apiVersion}}/habits/{{testHabitID}}/details",
+							"host": [
+								"{{baseURL}}{{apiVersion}}"
+							],
+							"path": [
+								"habits",
+								"{{testHabitID}}",
+								"details"
+							]
+						},
+						"description": "Retrieves detailed information about a specific habit including all completion data and calculated metrics.\n\nPath Parameters:\n\n- id: MongoDB ObjectId of the habit\n    \n\nReturns complete habit data with virtual fields like completion rate calculated in real-time.\n\n## Success Response (200):\n\n{  \n\"success\": true,  \n\"data\": {  \n\"_id\": \"689f34cd9a9376ef3ed2a734\",  \n\"title\": \"Drink Water\",  \n\"description\": \"Drink at least 2 litres of water daily\",  \n\"category\": \"HYDRATION\",  \n\"isDaily\": true,  \n\"streakCount\": 0,  \n\"longestStreak\": 0,  \n\"lastCompleted\": null,  \n\"owner\": {  \n\"_id\": \"689d84008fb4f7011ca19fd4\",  \n\"username\": \"testuser\",  \n\"email\": \"[test@example.com](https://mailto:test@example.com)\"  \n},  \n\"completions\": \\[\\],  \n\"createdAt\": \"2025-08-15T13:23:25.639Z\",  \n\"updatedAt\": \"2025-08-15T13:23:25.639Z\",  \n\"__v\": 0,  \n\"completionRate\": 0,  \n\"id\": \"689f34cd9a9376ef3ed2a734\"  \n}  \n}\n\n## Bad Request (400)\n\n{  \n\"success\": false,  \n\"message\": \"Invalid habit ID\"  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Habit",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "habittracker0402",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Night Dinner Walk\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}{{apiVersion}}/habits/{{testHabitID}}/update",
+							"host": [
+								"{{baseURL}}{{apiVersion}}"
+							],
+							"path": [
+								"habits",
+								"{{testHabitID}}",
+								"update"
+							]
+						},
+						"description": "Updates an existing habit's properties. Only provided fields will be updated.\n\nUpdatable fields:\n\n- title (3-100 characters)\n    \n- description (max 500 characters)\n    \n- category (from predefined enum)\n    \n- isDaily (boolean)\n    \n\nNote: Streak data and completions are preserved during updates.\n\n## Success Response (200):\n\n{  \n\"success\": true,  \n\"message\": \"Habit updated successfully\",  \n\"data\": {  \n\"_id\": \"689d8ff67e0704fe8f36ec71\",  \n\"title\": \"Night Dinner Walk\",  \n\"description\": \"1 hour of coding daily\",  \n\"category\": \"SKILL_DEVELOPMENT\",  \n\"isDaily\": true,  \n\"streakCount\": 1,  \n\"longestStreak\": 1,  \n\"lastCompleted\": \"2025-08-14T20:07:48.253Z\",  \n\"owner\": \"689d84008fb4f7011ca19fd4\",  \n\"completions\": \\[  \n{  \n\"date\": \"2025-08-14T20:07:48.253Z\",  \n\"_id\": \"689e42149920798eb592a741\",  \n\"id\": \"689e42149920798eb592a741\"  \n}  \n\\],  \n\"createdAt\": \"2025-08-14T07:27:50.381Z\",  \n\"updatedAt\": \"2025-08-15T12:36:11.714Z\",  \n\"__v\": 1,  \n\"completionRate\": 50,  \n\"id\": \"689d8ff67e0704fe8f36ec71\"  \n}  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Habit",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "habittracker0402",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}{{apiVersion}}/habits/{{testHabitID}}/remove",
+							"host": [
+								"{{baseURL}}{{apiVersion}}"
+							],
+							"path": [
+								"habits",
+								"{{testHabitID}}",
+								"remove"
+							]
+						},
+						"description": "Permanently deletes a habit and all associated completion data.\n\n⚠️ Warning: This action is irreversible. All streak data, completions, and statistics will be lost.\n\nPath Parameters:\n\n- id: MongoDB ObjectId of the habit to delete\n    \n\nOnly the habit owner can delete their habits.\n\n## Success Response (200):\n\n{  \n\"success\": true,  \n\"message\": \"Habit deleted successfully\"  \n}\n\n## Bad Request (400)\n\n{  \n\"success\": false,  \n\"message\": \"Invalid habit ID\"  \n}"
+					},
+					"response": []
+				}
+			],
+			"description": "Core CRUD operations for habit management including creation, retrieval, updating, and deletion of habits."
+		},
+		{
+			"name": "Habit Tracking",
+			"item": [
+				{
+					"name": "Mark Complete",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "habittracker0402",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}{{apiVersion}}/habits/{{testHabitID}}/mark-complete",
+							"host": [
+								"{{baseURL}}{{apiVersion}}"
+							],
+							"path": [
+								"habits",
+								"{{testHabitID}}",
+								"mark-complete"
+							]
+						},
+						"description": "Marks a habit as completed for the current day and updates streak calculations.\n\nStreak Logic:\n\n- If completed yesterday: streak continues (+1)\n    \n- If last completion was not yesterday: streak resets to 1\n    \n- If first completion: streak starts at 1\n    \n- Automatically updates longest streak if current streak exceeds it\n    \n\nPrevents duplicate completions for the same day.\n\n## Success Response (200):\n\n{  \n\"success\": true,  \n\"message\": \"Habit marked as complete\",  \n\"data\": {  \n\"streakCount\": 1,  \n\"longestStreak\": 1,  \n\"completions\": 1,  \n\"completionRate\": 100  \n}  \n}\n\n## Bad Request (400)\n\n{  \n\"success\": false,  \n\"message\": \"Habit already completed today\"  \n}"
+					},
+					"response": []
+				}
+			],
+			"description": "Functionality for marking habits as complete and tracking daily progress."
+		},
+		{
+			"name": "Analytics & Reports",
+			"item": [
+				{
+					"name": "Get Habit Stats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{apiVersion}}/habits/{{testHabitID}}/statistics",
+							"host": [
+								"{{baseURL}}{{apiVersion}}"
+							],
+							"path": [
+								"habits",
+								"{{testHabitID}}",
+								"statistics"
+							]
+						},
+						"description": "Provides comprehensive statistics for a specific habit including period-based analysis.\n\nQuery Parameters:\n\n- period: Number of days for period analysis (default: 30)\n    \n\nStatistics Included:\n\n- Total completions since creation\n    \n- Current active streak\n    \n- Longest streak ever achieved\n    \n- Overall completion rate since creation\n    \n- Period-specific completion rate\n    \n- Period-specific longest streak\n    \n- Last completion date\n    \n\n## Success Response (200):\n\n{  \n\"success\": true,  \n\"data\": {  \n\"totalCompletions\": 1,  \n\"currentStreak\": 1,  \n\"longestStreak\": 1,  \n\"overallCompletionRate\": \"50.00%\",  \n\"lastCompleted\": \"2025-08-14T20:07:48.253Z\",  \n\"createdAt\": \"2025-08-14T07:27:50.381Z\",  \n\"period\": {  \n\"days\": 30,  \n\"completions\": 1,  \n\"completionRate\": \"3.33%\",  \n\"longestStreak\": 1  \n}  \n}  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{apiVersion}}/habits/my-summary",
+							"host": [
+								"{{baseURL}}{{apiVersion}}"
+							],
+							"path": [
+								"habits",
+								"my-summary"
+							]
+						},
+						"description": "Provides a comprehensive dashboard summary of all user habits and achievements.\n\nSummary Includes:\n\n- Total number of habits\n    \n- Active streaks count\n    \n- Longest overall streak across all habits\n    \n- Average completion rate across all habits\n    \n- Number of unique categories used\n    \n- Daily habits count\n    \n- Total completions across all habits\n    \n- Today's completion status\n    \n- Daily completion rate for today\n    \n\n## Success Response (200):\n\n{  \n\"success\": true,  \n\"data\": {  \n\"totalHabits\": 3,  \n\"activeStreaks\": 2,  \n\"longestOverallStreak\": 1,  \n\"averageCompletionRate\": 50,  \n\"categoriesCount\": 3,  \n\"dailyHabits\": 3,  \n\"totalCompletions\": 2,  \n\"completedToday\": 1,  \n\"dailyCompletionRate\": 33.33333333333333  \n}  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{apiVersion}}/ping",
+							"host": [
+								"{{baseURL}}{{apiVersion}}"
+							],
+							"path": [
+								"ping"
+							]
+						},
+						"description": "System health check endpoint to verify API availability and basic functionality.\n\nUse this endpoint for monitoring and deployment verification.\n\n## Success Response (200):\n\npong"
+					},
+					"response": []
+				}
+			],
+			"description": "Statistical data and reporting endpoints for habit analysis, user summaries, and system health monitoring."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.globals.set(\"timestamp\", Date.now());\r",
+					"\r",
+					"if(!pm.variables.get(\"baseURL\")) \r",
+					"{\r",
+					"    console.warn(\"Base URL not set. Please configure collection variables.\");\r",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.test(\"Response time is acceptable\", function () {\r",
+					"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+					"});\r",
+					"\r",
+					"pm.test(\"Response has correct content type\", function () {\r",
+					"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+					"});\r",
+					"\r",
+					"if(pm.response.json().token) \r",
+					"{\r",
+					"    pm.collectionVariables.set(\"authToken\", pm.response.json().token);\r",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://personal-habit-streak-tracker.onrender.com",
+			"type": "string"
+		},
+		{
+			"key": "apiVersion",
+			"value": "/backend",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "testUsername",
+			"value": "testuser",
+			"type": "string"
+		},
+		{
+			"key": "testEmail",
+			"value": "test@example.com",
+			"type": "string"
+		},
+		{
+			"key": "testPassword",
+			"value": "password123",
+			"type": "string"
+		},
+		{
+			"key": "testHabitID",
+			"value": "689f34cd9a9376ef3ed2a734",
+			"type": "string"
+		}
+	]
+}
