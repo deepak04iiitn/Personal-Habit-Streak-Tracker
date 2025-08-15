@@ -9,7 +9,13 @@
   "scripts": {
     "dev": "nodemon backend/index.js",
     "start": "node backend/index.js",
-    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
+    "test": "cross-env NODE_ENV=test npx --node-options=\"--experimental-vm-modules\" jest",
+    "test:watch": "cross-env NODE_ENV=test npx --node-options=\"--experimental-vm-modules\" jest --watch",
+    "test:coverage": "cross-env NODE_ENV=test npx --node-options=\"--experimental-vm-modules\" jest --coverage",
+    "test:unit": "cross-env NODE_ENV=test npx --node-options=\"--experimental-vm-modules\" jest tests/unit",
+    "test:integration": "cross-env NODE_ENV=test npx --node-options=\"--experimental-vm-modules\" jest tests/integration",
+    "test:e2e": "cross-env NODE_ENV=test npx --node-options=\"--experimental-vm-modules\" jest tests/e2e"
   },
   "keywords": [],
   "author": "",
@@ -24,5 +30,16 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.17.1",
     "nodemon": "^3.1.10"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.3",
+    "@babel/plugin-transform-runtime": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
+    "@types/jest": "^30.0.0",
+    "babel-jest": "^30.0.5",
+    "cross-env": "^10.0.0",
+    "jest": "^30.0.5",
+    "mongodb-memory-server": "^10.2.0",
+    "supertest": "^7.1.4"
   }
 }

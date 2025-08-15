@@ -39,7 +39,7 @@ export const signup = async (req , res , next) => {
 
     try {
         await newUser.save();
-        res.json('Signup successfull!');
+        res.status(201).json({ success: true, message: 'Signup successful!' });
     } catch (error) {
         next(error);
     }
@@ -52,7 +52,7 @@ export const signin = async (req, res, next) => {
 
     if(!email || !password || email === '' || password === '') 
     {
-        return res.status(400).json({ success: false, message: 'All fields are required!' });
+        return next(errorHandler(400, 'All fields are required!'));
     }
 
     try {
@@ -60,14 +60,14 @@ export const signin = async (req, res, next) => {
 
         if(!validUser) 
         {
-            return res.status(404).json({ success: false, message: 'Invalid credentials!' });
+            return next(errorHandler(404, 'Invalid credentials!'));
         }
 
         const validPassword = bcryptjs.compareSync(password, validUser.password);
 
         if(!validPassword) 
         {
-            return res.status(400).json({ success: false, message: 'Invalid credentials!' });
+            return next(errorHandler(400, 'Invalid credentials!'));
         }
 
         const expiresInSeconds = 60 * 60; 

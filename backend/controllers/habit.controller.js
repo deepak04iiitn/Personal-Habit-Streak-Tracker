@@ -399,6 +399,7 @@ export const getUserHabitSummary = async (req, res, next) => {
     try {
       const owner = req.user.id;
       const habits = await Habit.find({ owner });
+      const dailyHabits = habits.filter(habit => habit.isDaily);
       
       const summary = {
         totalHabits: habits.length,
@@ -408,7 +409,7 @@ export const getUserHabitSummary = async (req, res, next) => {
           ? habits.reduce((sum, habit) => sum + habit.completionRate, 0) / habits.length 
           : 0,
         categoriesCount: [...new Set(habits.map(habit => habit.category))].length,
-        dailyHabits: habits.filter(habit => habit.isDaily).length,
+        dailyHabits: dailyHabits.length,
         totalCompletions: habits.reduce((sum, habit) => sum + habit.completions.length, 0)
       };
   
@@ -429,8 +430,8 @@ export const getUserHabitSummary = async (req, res, next) => {
       }).length;
   
       summary.completedToday = completedToday;
-      summary.dailyCompletionRate = habits.filter(habit => habit.isDaily).length > 0 
-        ? (completedToday / habits.filter(habit => habit.isDaily).length) * 100 
+      summary.dailyCompletionRate = dailyHabits.length > 0 
+        ? (completedToday / dailyHabits.length) * 100 
         : 0;
   
       res.status(200).json({
@@ -442,5 +443,3 @@ export const getUserHabitSummary = async (req, res, next) => {
       next(error);
     }
 };
-  
-  

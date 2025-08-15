@@ -124,9 +124,9 @@ habitSchema.methods.updateStreak = function() {
       {
         this.streakCount++;
       } 
-      else if (lastCompletedDate.getTime() !== today.getTime()) 
+      else 
       {
-        this.streakCount = 1; 
+        this.streakCount = 1;
       }
     } 
     else 
