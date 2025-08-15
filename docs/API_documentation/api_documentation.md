@@ -1,7 +1,7 @@
 # API Documentation
 
 The complete API documentation for this project is available here:  
-**[View API Documentation](https://documenter.getpostman.com/view/12345678/2sA2xqabc)**
+**[View API Documentation](https://documenter.getpostman.com/view/47323260/2sB3BHk8Wq)**
 
 This documentation includes:
 - **Authentication Endpoints**
