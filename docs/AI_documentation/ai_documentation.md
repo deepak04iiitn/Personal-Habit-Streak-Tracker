@@ -239,7 +239,6 @@ gemini -p "Can you give @frontend/src/components/Header.jsx and @frontend/src/co
 **Changes Made:**
 - Enhanced Header with better gradients and animations
 - Enhanced Footer with interactive elements
-```
 
 **Explanation**: These changes created a more engaging visual experience and align the branding of the application.
 A polished UI improves user trust, encourages longer usage, and gives the application a modern, professional feel.
