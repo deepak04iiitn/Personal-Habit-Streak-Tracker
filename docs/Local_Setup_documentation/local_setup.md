@@ -18,14 +18,14 @@ git clone <repository_url>
 ```bash
 cd Personal-Habit-Streak-Tracker
 ```
-![Cloning](cloning.png)
+![Cloning](./outputs/cloning.png)
 
 
 ### 3. Install Backend Dependencies
 ```bash
 npm i
 ```
-![Backend Dependencies Installation](backend_dependency.png)
+![Backend Dependencies Installation](./outputs/backend_dependency.png)
 
 
 ### 4. Move into the Frontend Directory
@@ -38,7 +38,7 @@ cd frontend
 ```bash
 npm i
 ```
-![Frontend Dependencies Installation](frontend_dependency.png)
+![Frontend Dependencies Installation](./outputs/frontend_dependency.png)
 
 
 ### 6. Go Back to the Root Directory
@@ -80,7 +80,7 @@ npm start
 cd frontend
 npm run dev
 ```
-![Starting the application](start_application.png)
+![Starting the application](./outputs/start_application.png)
 
 ---
 
@@ -92,28 +92,28 @@ From the root directory, you can run all of these:
 ```bash
 npm test
 ```
-![All tests](all_tests.png)
+![All tests](./outputs/all_tests.png)
 
 
 ### 2. Run only unit tests
 ```bash
 npm run test:unit
 ```
-![Unit tests](unit_tests.png)
+![Unit tests](./outputs/unit_tests.png)
 
 
 ### 3. Run only integration tests
 ```bash
 npm run test:integration
 ```
-![Integration tests](integration_tests.png)
+![Integration tests](./outputs/integration_tests.png)
 
 
 ### 4. Run end-to-end (E2E) tests
 ```bash
 npm run test:e2e
 ```
-![E2E tests](e2e_tests.png)
+![E2E tests](./outputs/e2e_tests.png)
 
 ---
 
