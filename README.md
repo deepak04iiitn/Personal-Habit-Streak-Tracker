@@ -68,6 +68,12 @@ It **gamifies habit formation** through:
 
 ---
 
+## Login Details (for testing purpose)
+- **Email**: test@example.com
+- **Password**: password123
+
+---
+
 ## 📱 Use Cases
 
 - **Health & Fitness**: Exercise, water intake, meditation  
