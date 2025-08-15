@@ -4,6 +4,21 @@ A **full-stack web application** that helps users build and maintain consistent 
 
 ---
 
+## 🌐 Links
+
+- **Live Application**: [View Demo](https://personal-habit-streak-tracker.onrender.com)  
+- **Source Code**: [GitHub Repository](https://github.com/deepak04iiitn/Personal-Habit-Streak-Tracker)  
+- **Complete Documentation**: Visit **docs** folder for detailed and complete setup guide , API documentation , AI documentation , commit history and architecture documentation.
+- **Video Link**: [View Video](https://youtu.be/WqoWS_tSDxQ) 
+
+---
+
+## Login Details (for testing purpose)
+- **Email**: test@example.com
+- **Password**: password123
+
+---
+
 ## 🎯 What is this Application?
 
 The **Personal Habit & Streak Tracker** is a productivity tool designed to help users **develop positive habits** and maintain **consistency over time**.  
@@ -68,27 +83,12 @@ It **gamifies habit formation** through:
 
 ---
 
-## Login Details (for testing purpose)
-- **Email**: test@example.com
-- **Password**: password123
-
----
-
 ## 📱 Use Cases
 
 - **Health & Fitness**: Exercise, water intake, meditation  
 - **Learning**: Reading, language practice, skills  
 - **Productivity**: Work routines, time management  
 - **Lifestyle**: Daily routines, self-care  
-
----
-
-## 🌐 Links
-
-- **Live Application**: [View Demo](https://personal-habit-streak-tracker.onrender.com)  
-- **Source Code**: [GitHub Repository](https://github.com/deepak04iiitn/Personal-Habit-Streak-Tracker)  
-- **Complete Documentation**: Visit **docs** folder for detailed and complete setup guide , API documentation , AI documentation , commit history and architecture documentation.
-- **Video Link**: [View Video](https://youtu.be/WqoWS_tSDxQ) 
 
 ---
 
