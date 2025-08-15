@@ -82,6 +82,7 @@ It **gamifies habit formation** through:
 - **Live Application**: [View Demo](https://personal-habit-streak-tracker.onrender.com)  
 - **Source Code**: [GitHub Repository](https://github.com/deepak04iiitn/Personal-Habit-Streak-Tracker)  
 - **Complete Documentation**: Visit **docs** folder for detailed and complete setup guide , API documentation , AI documentation , commit history and architecture documentation.
+- **Video Link**: [View Video](https://youtu.be/WqoWS_tSDxQ) 
 
 ---
 
