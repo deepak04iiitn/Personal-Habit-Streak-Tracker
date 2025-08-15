@@ -151,6 +151,7 @@ gemini -p "I want to create an API endpoint in @backend/controllers/habit.contro
 - Calculated total completions, current streak, longest streak, and completion rate for the given period
 
 **Explanation**: Custom-period analytics allow users to track short-term and long-term progress, which is a key motivator for continued app engagement.
+
 ---
 
 ### 8. Fixing Frontend Habit Display Issue
