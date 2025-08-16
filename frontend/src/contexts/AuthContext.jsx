@@ -38,7 +38,6 @@ export const AuthProvider = ({ children }) => {
       { username, email, password },
       { withCredentials: true }
     );
-    setUser(res.data);
     return res;
   };
 
