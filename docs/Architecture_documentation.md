@@ -29,26 +29,44 @@ Additional middleware includes CORS for cross-origin requests, cookie-parser for
 ## Project Structure
 
 ```
-/
-├── config/
-│   └── db.js                    
-├── controllers/
-│   ├── auth.controller.js       
-│   └── habit.controller.js      
-├── models/
-│   ├── user.model.js           
-│   └── habit.model.js          
-├── routes/
-│   ├── auth.route.js           
-│   └── habit.route.js          
-├── utils/
-│   ├── error.js                
-│   └── verifyUser.js           
-├── tests/
-│   ├── setup/
-│   ├── integration/
-│   └── unit/
-└── index.js                    
+Personal-Habit-Streak-Tracker/
+├── backend/
+│   ├── config/
+│   │   └── db.js                    
+│   ├── controllers/
+│   │   ├── auth.controller.js       
+│   │   └── habit.controller.js      
+│   ├── models/
+│   │   ├── user.model.js           
+│   │   └── habit.model.js          
+│   ├── routes/
+│   │   ├── auth.route.js           
+│   │   └── habit.route.js          
+│   ├── utils/
+│   │   ├── error.js                
+│   │   └── verifyUser.js           
+│   ├── tests/
+│   │   ├── setup/
+│   │   ├── integration/
+│   │   └── unit/
+│   └── index.js                    
+
+├── frontend/
+│   ├── public/
+│   └── src/
+│       ├── assets/
+│       ├── contexts/
+│       ├── components/
+│       └── pages/
+
+├── docs/
+│   ├── AI_documentation/
+│   ├── API_documentation/
+│   ├── Local_Setup_documentation/
+│   ├── Architecture_documentation.md
+│   ├── commits.md
+│   ├── links.md
+│   └── video.md                    
 ```
 
 This structure separates concerns effectively - routes handle HTTP requests, controllers contain business logic, models define data structures, and utilities provide shared functionality.
